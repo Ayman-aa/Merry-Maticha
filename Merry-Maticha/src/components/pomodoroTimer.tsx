@@ -5,13 +5,16 @@ import { useFonts, Poppins_400Regular, Poppins_700Bold } from '@expo-google-font
 import * as SplashScreen from 'expo-splash-screen';
 import WaterMeter from './WaterMeter'; // Ensure this path is correct
 
+const POMODORO_DURATION = 3; // 25 minutes in seconds
+const BREAK_DURATION = 6; // 5 minutes in seconds
+
 // Prevent the splash screen from auto-hiding
 SplashScreen.preventAutoHideAsync();
 
 const PomodoroTimer = () => {
   const [isWorking, setIsWorking] = useState(true);
   const [isRunning, setIsRunning] = useState(false);
-  const [time, setTime] = useState(1500); // Example: 25 minutes
+  const [time, setTime] = useState(POMODORO_DURATION);
   const [progress, setProgress] = useState(0);
   const [showRestButton, setShowRestButton] = useState(false); // State to manage the visibility of the 'Rest' button
 
@@ -25,13 +28,15 @@ const PomodoroTimer = () => {
     if (isRunning) {
       interval = setInterval(() => {
         setTime(prevTime => {
-          if (prevTime <= 1) {
+          if (prevTime > 0) {
+            return prevTime - 1;
+          } else {
             clearInterval(interval);
             setIsRunning(false);
             setIsWorking(!isWorking);
-            return isWorking ? 300 : 1500; // Example: 5 min break, 25 min work
+            setProgress(0); // Reset progress when switching between work and break
+            return isWorking ? BREAK_DURATION : POMODORO_DURATION;
           }
-          return prevTime - 1;
         });
       }, 1000);
     }
@@ -39,8 +44,12 @@ const PomodoroTimer = () => {
   }, [isRunning, isWorking]);
 
   useEffect(() => {
-    setProgress((1500 - time) / 1500); // Update progress based on time
-  }, [time]);
+    if (isWorking) {
+      setProgress((POMODORO_DURATION - time) / POMODORO_DURATION); // Update progress based on work time
+    } else {
+      setProgress((BREAK_DURATION - time) / BREAK_DURATION); // Update progress based on break time
+    }
+  }, [time, isWorking]);
 
   const startTimer = () => {
     setIsRunning(true);
@@ -51,7 +60,8 @@ const PomodoroTimer = () => {
 
   const resetTimer = () => {
     setIsRunning(false);
-    setTime(1500); // Reset to initial time (25 minutes)
+    setIsWorking(true); // Reset to 'Work Time'
+    setTime(POMODORO_DURATION); // Reset to initial time (25 minutes)
     setProgress(0);
     setShowRestButton(false); // Hide the 'Rest' button after resetting
   };

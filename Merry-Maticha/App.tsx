@@ -1,13 +1,14 @@
 import React from 'react';
-import { View, StyleSheet, SafeAreaView } from 'react-native';
+import { SafeAreaView, StyleSheet } from 'react-native';
 import PomodoroTimer from './src/components/pomodoroTimer';
+import LoadingWrapper from './src/components/LoadingWrapper';
 
 export default function App() {
   return (
     <SafeAreaView style={styles.safeArea}>
-      <View style={styles.container}>
+      <LoadingWrapper>
         <PomodoroTimer />
-      </View>
+      </LoadingWrapper>
     </SafeAreaView>
   );
 }
@@ -16,10 +17,5 @@ const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
     backgroundColor: '#FEF4F1',
-  },
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
   },
 });
