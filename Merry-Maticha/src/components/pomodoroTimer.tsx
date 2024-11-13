@@ -5,8 +5,8 @@ import { useFonts, Poppins_400Regular, Poppins_700Bold } from '@expo-google-font
 import * as SplashScreen from 'expo-splash-screen';
 import WaterMeter from './WaterMeter'; // Ensure this path is correct
 
-const POMODORO_DURATION = 3; // 25 minutes in seconds
-const BREAK_DURATION = 6; // 5 minutes in seconds
+const POMODORO_DURATION = 1500; // 25 minutes in seconds
+const BREAK_DURATION = 300; // 5 minutes in seconds
 
 // Prevent the splash screen from auto-hiding
 SplashScreen.preventAutoHideAsync();
