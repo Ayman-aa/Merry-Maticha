@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#FEF4F1', // Match the background color of your app
+    backgroundColor: '#FEF4F1',
   },
   lottie: {
     width: 200,
